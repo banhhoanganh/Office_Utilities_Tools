@@ -14,9 +14,6 @@ Public Class Form1
     Private startPoint As Point
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        ' Initialize the form
-        ' InitializeComponent()
-
         ' Configure the NotifyIcon
         ' NotifyIcon1.Icon = SystemIcons.Application ' Use a default system icon
         NotifyIcon1.Text = "Office_Utilities_Tools" ' Text displayed when hovering over the icon
