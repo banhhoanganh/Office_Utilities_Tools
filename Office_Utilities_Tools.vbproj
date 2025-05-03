@@ -156,5 +156,11 @@
   <ItemGroup>
     <None Include="Resources\btexit.jpg" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Microsoft_Excel-Logo.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Microsoft_Excel-Logo.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>

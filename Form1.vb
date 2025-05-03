@@ -1,10 +1,8 @@
 ﻿Imports System.IO
 Imports System.Reflection
 
-Public Class Form1
-    ' Create a NotifyIcon
-    Private WithEvents notifyIcon As New NotifyIcon()
 
+Public Class Form1
     Private startupFolder As String = Environment.GetFolderPath(Environment.SpecialFolder.Startup)
     'Private currentFolder As String = Directory.GetCurrentDirectory()
     Private currentFilePath As String = Assembly.GetExecutingAssembly().Location
@@ -14,20 +12,22 @@ Public Class Form1
     Private startPoint As Point
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        ' Configure the NotifyIcon
-        ' NotifyIcon1.Icon = SystemIcons.Application ' Use a default system icon
-        NotifyIcon1.Text = "Office_Utilities_Tools" ' Text displayed when hovering over the icon
-        NotifyIcon1.Visible = True
+        Dim processes As Process() = Process.GetProcessesByName("Office_Utilities_Tools")
+        If processes.Length > 1 Then
+            For Each proc As Process In processes
+                If proc.Id <> Process.GetCurrentProcess().Id Then
+                    proc.Kill()
+                End If
+            Next
+            'Me.Close()
+        End If
 
-        ' Add a context menu to the NotifyIcon (optional)
-        Dim contextMenu As New ContextMenuStrip()
-        Dim exitItem As New ToolStripMenuItem("Exit", Nothing, AddressOf ExitApplication)
-        Dim exitItem1 As New ToolStripMenuItem("End Task Exel", Nothing, AddressOf ExitExel)
-        contextMenu.Items.Add(exitItem1)
-        contextMenu.Items.Add(exitItem)
-        NotifyIcon1.ContextMenuStrip = contextMenu
+        '' Configure the NotifyIcon
+        AddHandler Me.EndTaskMicrosoftExelToolStripMenuItem.Click, AddressOf ExitExel
+        AddHandler Me.ExitToolStripMenuItem.Click, AddressOf ExitApplication
 
-        CreatShortcutStartup()
+        ShortcutStartup(True)
+
         'Me.StartPosition = FormStartPosition.CenterScreen
     End Sub
 
@@ -47,27 +47,34 @@ Public Class Form1
         KillAPP("Excel")
     End Sub
 
-    Private Sub CreatShortcutStartup()
-        ' Define the shortcut file name and path
+    Private Sub ShortcutStartup(Creat As Boolean)
         Dim shortcutPath As String = Path.Combine(startupFolder, Path.GetFileNameWithoutExtension(currentFilePath) & ".lnk")
-        If Not File.Exists(shortcutPath) Then
-            'File.Delete(shortcutPath) ' Delete the existing shortcut if it exists
-            Try
-                ' Create a shortcut using Windows Script Host
-                Dim wsh As Object = CreateObject("WScript.Shell")
-                Dim shortcut As Object = wsh.CreateShortcut(shortcutPath)
+        If Creat Then
+            ' Define the shortcut file name and path
+            If Not File.Exists(shortcutPath) Then
+                'File.Delete(shortcutPath) ' Delete the existing shortcut if it exists
+                Try
+                    ' Create a shortcut using Windows Script Host
+                    Dim wsh As Object = CreateObject("WScript.Shell")
+                    Dim shortcut As Object = wsh.CreateShortcut(shortcutPath)
 
-                ' Set the shortcut target to the current file
-                shortcut.TargetPath = currentFilePath
-                shortcut.WorkingDirectory = Path.GetDirectoryName(currentFilePath)
-                shortcut.Save() ' Save the shortcut
+                    ' Set the shortcut target to the current file
+                    shortcut.TargetPath = currentFilePath
+                    shortcut.WorkingDirectory = Path.GetDirectoryName(currentFilePath)
+                    shortcut.Save() ' Save the shortcut
 
-                Console.WriteLine("Shortcut created successfully at: " & shortcutPath)
-            Catch ex As Exception
-                ' Handle any errors
-                Console.WriteLine("Error: " & ex.Message)
-            End Try
+                    Console.WriteLine("Shortcut created successfully at: " & shortcutPath)
+                Catch ex As Exception
+                    ' Handle any errors
+                    Console.WriteLine("Error: " & ex.Message)
+                End Try
+            End If
+        Else
+            If File.Exists(shortcutPath) Then
+                File.Delete(shortcutPath) ' Delete the existing shortcut if it exists
+            End If
         End If
+
 
     End Sub
 
@@ -89,6 +96,18 @@ Public Class Form1
             End Try
         Next
     End Sub
+
+    Private Function CheckProgramOpen(processName As String) As Integer
+        Dim processes() As Process = Process.GetProcessesByName(processName)
+
+        If processes.Length > 0 Then
+            Console.WriteLine($"{processName} is running.")
+        Else
+            Console.WriteLine($"{processName} is not running.")
+        End If
+
+        Return processes.Length
+    End Function
 
 
     Private Sub BTexit_Click(sender As Object, e As EventArgs) Handles BTexit.Click
@@ -128,6 +147,14 @@ Public Class Form1
         Dim clientRect As New Rectangle(0, 0, Me.ClientSize.Width, Me.ClientSize.Height)
         If Not clientRect.Contains(Me.PointToClient(Cursor.Position)) Then
 
+        End If
+    End Sub
+
+    ' Form closing event to ensure cleanup
+    Private Sub MainForm_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
+        If NotifyIcon1 IsNot Nothing Then
+            NotifyIcon1.Visible = False
+            NotifyIcon1.Dispose()
         End If
     End Sub
 

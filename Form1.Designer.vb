@@ -29,6 +29,12 @@ Partial Class Form1
         Me.BTexit = New System.Windows.Forms.Button()
         Me.BTSetting = New System.Windows.Forms.Button()
         Me.NotifyIcon1 = New System.Windows.Forms.NotifyIcon(Me.components)
+        Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.EndTaskMicrosoftExelToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ExitToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
+        Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ContextMenuStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
         'BTheader
@@ -89,9 +95,43 @@ Partial Class Form1
         '
         Me.NotifyIcon1.BalloonTipText = "Office_Utilities_Tools"
         Me.NotifyIcon1.BalloonTipTitle = "Office_Utilities_Tools"
+        Me.NotifyIcon1.ContextMenuStrip = Me.ContextMenuStrip1
         Me.NotifyIcon1.Icon = CType(resources.GetObject("NotifyIcon1.Icon"), System.Drawing.Icon)
         Me.NotifyIcon1.Text = "Office_Utilities_Tools"
         Me.NotifyIcon1.Visible = True
+        '
+        'ContextMenuStrip1
+        '
+        Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.EndTaskMicrosoftExelToolStripMenuItem, Me.ToolStripSeparator1, Me.ToolStripMenuItem1, Me.ExitToolStripMenuItem})
+        Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
+        Me.ContextMenuStrip1.Size = New System.Drawing.Size(198, 98)
+        '
+        'EndTaskMicrosoftExelToolStripMenuItem
+        '
+        Me.EndTaskMicrosoftExelToolStripMenuItem.Image = Global.Office_Utilities_Tools.My.Resources.Resources.Microsoft_Excel_Logo1
+        Me.EndTaskMicrosoftExelToolStripMenuItem.Name = "EndTaskMicrosoftExelToolStripMenuItem"
+        Me.EndTaskMicrosoftExelToolStripMenuItem.Size = New System.Drawing.Size(197, 22)
+        Me.EndTaskMicrosoftExelToolStripMenuItem.Text = "End Task Microsoft Exel"
+        '
+        'ExitToolStripMenuItem
+        '
+        Me.ExitToolStripMenuItem.Image = Global.Office_Utilities_Tools.My.Resources.Resources._exit
+        Me.ExitToolStripMenuItem.Name = "ExitToolStripMenuItem"
+        Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(197, 22)
+        Me.ExitToolStripMenuItem.Text = "exit"
+        '
+        'ToolStripSeparator1
+        '
+        Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(194, 6)
+        '
+        'ToolStripMenuItem1
+        '
+        Me.ToolStripMenuItem1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None
+        Me.ToolStripMenuItem1.CheckOnClick = True
+        Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
+        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(197, 22)
+        Me.ToolStripMenuItem1.Text = "Add to Startup"
         '
         'Form1
         '
@@ -99,6 +139,7 @@ Partial Class Form1
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.Black
         Me.ClientSize = New System.Drawing.Size(248, 92)
+        Me.ContextMenuStrip = Me.ContextMenuStrip1
         Me.Controls.Add(Me.BTSetting)
         Me.Controls.Add(Me.BTexit)
         Me.Controls.Add(Me.Button1)
@@ -109,9 +150,10 @@ Partial Class Form1
         Me.MinimizeBox = False
         Me.Name = "Form1"
         Me.ShowInTaskbar = False
-        Me.Text = "Daveco Office Tools"
+        Me.Text = "Office_Utilities_Tools"
         Me.TopMost = True
         Me.TransparencyKey = System.Drawing.Color.Black
+        Me.ContextMenuStrip1.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
@@ -121,4 +163,9 @@ Partial Class Form1
     Friend WithEvents BTexit As Button
     Friend WithEvents BTSetting As Button
     Friend WithEvents NotifyIcon1 As NotifyIcon
+    Friend WithEvents ContextMenuStrip1 As ContextMenuStrip
+    Friend WithEvents ExitToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents EndTaskMicrosoftExelToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents ToolStripSeparator1 As ToolStripSeparator
+    Friend WithEvents ToolStripMenuItem1 As ToolStripMenuItem
 End Class
