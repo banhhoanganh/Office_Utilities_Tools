@@ -31,9 +31,9 @@ Partial Class Form1
         Me.NotifyIcon1 = New System.Windows.Forms.NotifyIcon(Me.components)
         Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.EndTaskMicrosoftExelToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ExitToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
-        Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.AddStartup = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ExitToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ContextMenuStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -102,7 +102,7 @@ Partial Class Form1
         '
         'ContextMenuStrip1
         '
-        Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.EndTaskMicrosoftExelToolStripMenuItem, Me.ToolStripSeparator1, Me.ToolStripMenuItem1, Me.ExitToolStripMenuItem})
+        Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.EndTaskMicrosoftExelToolStripMenuItem, Me.ToolStripSeparator1, Me.AddStartup, Me.ExitToolStripMenuItem})
         Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
         Me.ContextMenuStrip1.Size = New System.Drawing.Size(198, 98)
         '
@@ -113,25 +113,25 @@ Partial Class Form1
         Me.EndTaskMicrosoftExelToolStripMenuItem.Size = New System.Drawing.Size(197, 22)
         Me.EndTaskMicrosoftExelToolStripMenuItem.Text = "End Task Microsoft Exel"
         '
+        'ToolStripSeparator1
+        '
+        Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(194, 6)
+        '
+        'AddStartup
+        '
+        Me.AddStartup.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None
+        Me.AddStartup.CheckOnClick = True
+        Me.AddStartup.Name = "AddStartup"
+        Me.AddStartup.Size = New System.Drawing.Size(197, 22)
+        Me.AddStartup.Text = "Add to Startup"
+        '
         'ExitToolStripMenuItem
         '
         Me.ExitToolStripMenuItem.Image = Global.Office_Utilities_Tools.My.Resources.Resources._exit
         Me.ExitToolStripMenuItem.Name = "ExitToolStripMenuItem"
         Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(197, 22)
         Me.ExitToolStripMenuItem.Text = "exit"
-        '
-        'ToolStripSeparator1
-        '
-        Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
-        Me.ToolStripSeparator1.Size = New System.Drawing.Size(194, 6)
-        '
-        'ToolStripMenuItem1
-        '
-        Me.ToolStripMenuItem1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None
-        Me.ToolStripMenuItem1.CheckOnClick = True
-        Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
-        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(197, 22)
-        Me.ToolStripMenuItem1.Text = "Add to Startup"
         '
         'Form1
         '
@@ -167,5 +167,5 @@ Partial Class Form1
     Friend WithEvents ExitToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents EndTaskMicrosoftExelToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents ToolStripSeparator1 As ToolStripSeparator
-    Friend WithEvents ToolStripMenuItem1 As ToolStripMenuItem
+    Friend WithEvents AddStartup As ToolStripMenuItem
 End Class

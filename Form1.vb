@@ -1,8 +1,15 @@
 ﻿Imports System.IO
 Imports System.Reflection
+Imports Microsoft.Win32
+Imports System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel
 
 
 Public Class Form1
+    ' read and write registry
+    Private Const RegistryPath As String = "HKEY_CURRENT_USER\Software\Office_Utilities_Tools"
+    Private Const AutoStartup As String = "AutoStartup"
+
+
     Private startupFolder As String = Environment.GetFolderPath(Environment.SpecialFolder.Startup)
     'Private currentFolder As String = Directory.GetCurrentDirectory()
     Private currentFilePath As String = Assembly.GetExecutingAssembly().Location
@@ -22,17 +29,43 @@ Public Class Form1
             'Me.Close()
         End If
 
+        LoadRegistery()
+
         '' Configure the NotifyIcon
         AddHandler Me.EndTaskMicrosoftExelToolStripMenuItem.Click, AddressOf ExitExel
         AddHandler Me.ExitToolStripMenuItem.Click, AddressOf ExitApplication
 
-        ShortcutStartup(True)
-
         'Me.StartPosition = FormStartPosition.CenterScreen
     End Sub
 
+    Private Sub AddStartup_Click(sender As Object, e As EventArgs) Handles AddStartup.Click
+        SaveRegistery()
+        ShortcutStartup(AddStartup.Checked)
+    End Sub
+
+    Private Sub LoadRegistery()
+        Dim autoStartupValue As String = Microsoft.Win32.Registry.GetValue(RegistryPath, AutoStartup, Nothing)
+        If autoStartupValue IsNot Nothing Then
+            ' MsgBox(autoStartupValue.ToString())
+            If autoStartupValue.ToString() = "True" Then
+                ShortcutStartup(True)
+            Else
+                ShortcutStartup(False)
+            End If
+        Else
+            ' If the registry value doesn't exist, create it with a default value
+            Registry.SetValue(RegistryPath, AutoStartup, "True")
+            ShortcutStartup(True)
+        End If
+    End Sub
+
+    Private Sub SaveRegistery()
+        Dim autoStartupValue As String = Microsoft.Win32.Registry.GetValue(RegistryPath, AutoStartup, Nothing)
+        Registry.SetValue(RegistryPath, AutoStartup, AddStartup.Checked.ToString())
+    End Sub
+
     ' Handle double-click on the NotifyIcon to restore the form
-    Private Sub notifyIcon_MouseDoubleClick(sender As Object, e As MouseEventArgs) Handles NotifyIcon1.MouseDoubleClick
+    Private Sub NotifyIcon_MouseDoubleClick(sender As Object, e As MouseEventArgs) Handles NotifyIcon1.MouseDoubleClick
         Me.Show() ' Show the form
         'Me.WindowState = FormWindowState.Normal ' Restore the form
     End Sub
@@ -49,33 +82,28 @@ Public Class Form1
 
     Private Sub ShortcutStartup(Creat As Boolean)
         Dim shortcutPath As String = Path.Combine(startupFolder, Path.GetFileNameWithoutExtension(currentFilePath) & ".lnk")
-        If Creat Then
-            ' Define the shortcut file name and path
-            If Not File.Exists(shortcutPath) Then
-                'File.Delete(shortcutPath) ' Delete the existing shortcut if it exists
-                Try
-                    ' Create a shortcut using Windows Script Host
-                    Dim wsh As Object = CreateObject("WScript.Shell")
-                    Dim shortcut As Object = wsh.CreateShortcut(shortcutPath)
-
-                    ' Set the shortcut target to the current file
-                    shortcut.TargetPath = currentFilePath
-                    shortcut.WorkingDirectory = Path.GetDirectoryName(currentFilePath)
-                    shortcut.Save() ' Save the shortcut
-
-                    Console.WriteLine("Shortcut created successfully at: " & shortcutPath)
-                Catch ex As Exception
-                    ' Handle any errors
-                    Console.WriteLine("Error: " & ex.Message)
-                End Try
-            End If
-        Else
-            If File.Exists(shortcutPath) Then
-                File.Delete(shortcutPath) ' Delete the existing shortcut if it exists
-            End If
+        If File.Exists(shortcutPath) Then
+            File.Delete(shortcutPath)
         End If
+        AddStartup.Checked = Creat
+        If Creat Then
+            Try
+                ' Create a shortcut using Windows Script Host
+                Dim wsh As Object = CreateObject("WScript.Shell")
+                Dim shortcut As Object = wsh.CreateShortcut(shortcutPath)
 
+                ' Set the shortcut target to the current file
+                shortcut.TargetPath = currentFilePath
+                shortcut.WorkingDirectory = Path.GetDirectoryName(currentFilePath)
+                shortcut.Save() ' Save the shortcut
 
+                Console.WriteLine("Shortcut created successfully at: " & shortcutPath)
+            Catch ex As Exception
+                ' Handle any errors
+                Console.WriteLine("Error: " & ex.Message)
+            End Try
+        End If
+        AddStartup.Checked = Creat
     End Sub
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
