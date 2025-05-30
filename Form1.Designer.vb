@@ -124,7 +124,7 @@ Partial Class Form1
         Me.AddStartup.CheckOnClick = True
         Me.AddStartup.Name = "AddStartup"
         Me.AddStartup.Size = New System.Drawing.Size(197, 22)
-        Me.AddStartup.Text = "Add to Startup"
+        Me.AddStartup.Text = "Launch On Startup"
         '
         'ExitToolStripMenuItem
         '
